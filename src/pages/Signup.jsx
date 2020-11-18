@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { api } from "../utils/api";
+import { Alert } from "@material-ui/lab";
 import {
   Typography,
   Button,
   Avatar,
   TextField,
   Container,
+  Snackbar,
   Grid,
 } from "@material-ui/core/";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { AuthContext } from "../context/context";
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -58,6 +61,10 @@ const Signup = () => {
     pseudo: "",
     password: "",
   });
+  const [alertMessage, setalertMessage] = useState("");
+  const [isAlertOpen, setAlertOpen] = useState(false);
+  const { userData, setUserData } = useContext(AuthContext);
+  const history = useHistory();
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -69,7 +76,13 @@ const Signup = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     const data = await api("/users/signup", "POST", textFields);
-    console.log(data);
+    if (data.success) {
+      setUserData(data.user);
+      history.push("/");
+    } else {
+      setalertMessage(data.error);
+      setAlertOpen(true);
+    }
   };
 
   return (
@@ -159,6 +172,13 @@ const Signup = () => {
           </Link>
         </form>
       </div>
+      <Snackbar
+        open={isAlertOpen}
+        autoHideDuration={5000}
+        onClose={() => setAlertOpen(false)}
+      >
+        <Alert severity="error">{alertMessage}</Alert>
+      </Snackbar>
     </Container>
   );
 };

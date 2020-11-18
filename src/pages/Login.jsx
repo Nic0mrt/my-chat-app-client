@@ -1,7 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import { Alert } from "@material-ui/lab";
 import {
+  Snackbar,
   Typography,
   Button,
   Avatar,
@@ -49,12 +51,15 @@ const useStyles = makeStyles((theme) => ({
     float: "right",
   },
 }));
+
 const Login = () => {
   const classes = useStyles();
   const [textFields, setTextFields] = useState({
     pseudo: "",
     password: "",
   });
+  const [isAlertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setalertMessage] = useState("");
   const history = useHistory();
   const context = useContext(AuthContext);
 
@@ -71,6 +76,9 @@ const Login = () => {
     if (data.success) {
       context.setUserData({ user: data.user });
       history.push("/");
+    } else {
+      setalertMessage(data.error);
+      setAlertOpen(true);
     }
   };
 
@@ -124,6 +132,13 @@ const Login = () => {
           </Link>
         </form>
       </div>
+      <Snackbar
+        open={isAlertOpen}
+        autoHideDuration={5000}
+        onClose={() => setAlertOpen(false)}
+      >
+        <Alert severity="error">{alertMessage}</Alert>
+      </Snackbar>
     </Container>
   );
 };
