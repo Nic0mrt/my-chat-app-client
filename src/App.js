@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { AuthContext } from "./context/context";
 
 function App() {
-  const [userData, setUserData] = useState({ user: null });
+  const [userData, setUserData] = useState({ user: {} });
 
   return (
     <AuthContext.Provider value={{ userData, setUserData }}>

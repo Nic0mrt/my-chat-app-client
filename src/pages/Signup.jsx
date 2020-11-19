@@ -63,7 +63,7 @@ const Signup = () => {
   });
   const [alertMessage, setalertMessage] = useState("");
   const [isAlertOpen, setAlertOpen] = useState(false);
-  const { userData, setUserData } = useContext(AuthContext);
+  const { setUserData } = useContext(AuthContext);
   const history = useHistory();
 
   const handleChange = (event) => {

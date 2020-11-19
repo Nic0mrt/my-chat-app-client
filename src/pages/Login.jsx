@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Alert } from "@material-ui/lab";
@@ -61,7 +61,7 @@ const Login = () => {
   const [isAlertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setalertMessage] = useState("");
   const history = useHistory();
-  const context = useContext(AuthContext);
+  const { setUserData } = useContext(AuthContext);
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -74,7 +74,7 @@ const Login = () => {
     console.log("submit", textFields);
     const data = await api("/users/login", "POST", textFields);
     if (data.success) {
-      context.setUserData({ user: data.user });
+      setUserData({ user: data.user });
       history.push("/");
     } else {
       setalertMessage(data.error);
