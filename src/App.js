@@ -1,12 +1,17 @@
-import React, { useState } from "react";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import Home from "./pages/Home";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { AuthContext } from "./context/context";
+import React, { useState } from 'react';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Home from './pages/Home';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { AuthContext } from './context/context';
+import './index.css';
 
 function App() {
-  const [userData, setUserData] = useState({ user: {} });
+  const [userData, setUserData] = useState({
+    user: {},
+    conversations: [],
+    conversationSelected: '',
+  });
 
   return (
     <AuthContext.Provider value={{ userData, setUserData }}>

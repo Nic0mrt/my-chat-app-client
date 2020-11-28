@@ -1,39 +1,38 @@
-import { useState, useEffect, useRef } from "react";
-import "./App.css";
-import openSocket from "socket.io-client";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { useState, useEffect, useRef } from 'react';
+import './App.css';
+import openSocket from 'socket.io-client';
 
 function App() {
-  const [inputText, setInputText] = useState("");
+  const [inputText, setInputText] = useState('');
   const [messages, setMessages] = useState([]);
   const socket = useRef(null);
   const input = useRef(null);
   const messageSectionEnd = useRef(null);
 
-  const click = (e) => {
+  const click = e => {
     e.preventDefault();
     if (inputText.length > 0) {
-      socket.current.emit("message", inputText);
-      setInputText("");
+      socket.current.emit('message', inputText);
+      setInputText('');
       input.current.focus();
     }
   };
 
-  const enter = (e) => {
-    if (e.key === "Enter" && inputText.length > 0) {
+  const enter = e => {
+    if (e.key === 'Enter' && inputText.length > 0) {
       click(e);
     }
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = e => {
     setInputText(e.target.value);
   };
 
   async function fetchData() {
-    const result = await fetch("http://localhost:8000/messages", {
+    const result = await fetch('http://localhost:8000/messages', {
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
     });
     const data = await result.json();
@@ -42,8 +41,8 @@ function App() {
 
   useEffect(() => {
     fetchData();
-    socket.current = openSocket("http://localhost:8000/");
-    socket.current.on("new-message", (messages) => {
+    socket.current = openSocket('http://localhost:8000/');
+    socket.current.on('new-message', messages => {
       setMessages(messages);
     });
   }, []);
@@ -70,6 +69,7 @@ function App() {
           onKeyDown={enter}
           onChange={handleInputChange}
           placeholder="Message..."
+          autoFocus
           value={inputText}
         ></input>
         <button onClick={click}>Envoyer</button>

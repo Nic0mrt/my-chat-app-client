@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import { Alert } from "@material-ui/lab";
+import React, { useState, useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import { Alert } from '@material-ui/lab';
 import {
   Snackbar,
   Typography,
@@ -9,31 +9,31 @@ import {
   Avatar,
   TextField,
   Container,
-} from "@material-ui/core/";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import { api } from "../utils/api";
-import { AuthContext } from "../context/context";
+} from '@material-ui/core/';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { api } from '../utils/api';
+import { AuthContext } from '../context/context';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   main: {
-    height: "100vh",
-    display: "flex",
-    alignItems: "center",
+    height: '100vh',
+    display: 'flex',
+    alignItems: 'center',
   },
 
   loginBox: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
     padding: theme.spacing(5),
   },
   avatar: {
     backgroundColor: theme.palette.secondary.main,
-    alignSelf: "center",
+    alignSelf: 'center',
     marginBottom: theme.spacing(3),
   },
 
   boxTitle: {
-    textAlign: "center",
+    textAlign: 'center',
   },
 
   form: {
@@ -42,40 +42,40 @@ const useStyles = makeStyles((theme) => ({
   },
   textfield: {
     marginBottom: theme.spacing(3),
-    width: "100%",
+    width: '100%',
   },
   submit: {
     marginBottom: theme.spacing(1),
   },
   signupLink: {
-    float: "right",
+    float: 'right',
   },
 }));
 
 const Login = () => {
   const classes = useStyles();
   const [textFields, setTextFields] = useState({
-    pseudo: "",
-    password: "",
+    pseudo: '',
+    password: '',
   });
   const [isAlertOpen, setAlertOpen] = useState(false);
-  const [alertMessage, setalertMessage] = useState("");
+  const [alertMessage, setalertMessage] = useState('');
   const history = useHistory();
-  const { setUserData } = useContext(AuthContext);
+  const { userData, setUserData } = useContext(AuthContext);
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     const name = event.target.name;
     const value = event.target.value;
     setTextFields({ ...textFields, [name]: value });
   };
 
-  const handleFormSubmit = async (event) => {
+  const handleFormSubmit = async event => {
     event.preventDefault();
-    console.log("submit", textFields);
-    const data = await api("/users/login", "POST", textFields);
+    console.log('submit', textFields);
+    const data = await api('/users/login', 'POST', textFields);
     if (data.success) {
-      setUserData({ user: data.user });
-      history.push("/");
+      setUserData({ ...userData, user: data.user });
+      history.push('/');
     } else {
       setalertMessage(data.error);
       setAlertOpen(true);
@@ -124,7 +124,7 @@ const Login = () => {
             Se connecter
           </Button>
           <Link
-            style={{ textDecoration: "none" }}
+            style={{ textDecoration: 'none' }}
             className={classes.signupLink}
             to="/signup"
           >

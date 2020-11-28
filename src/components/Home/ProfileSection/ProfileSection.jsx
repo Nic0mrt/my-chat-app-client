@@ -1,23 +1,24 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import ProfileBanner from "./ProfileBanner/ProfileBanner";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import ProfileBanner from './ProfileBanner/ProfileBanner';
+import ProfileFriendsList from './ProfileFriendsList/ProfileFriendsList';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   profileSection: {
-    height: "100%",
-    width: "30%",
-    display: "flex",
-    flexDirection: "column",
-    border: "solid 1px #d9d9d9",
+    width: '30%',
+    display: 'flex',
+    flexDirection: 'column',
+    borderRight: 'solid 2px #eeeeee',
   },
 }));
 
 function ProfileSection(props) {
   const classes = useStyles();
   return (
-    <div className={classes.profileSection}>
+    <section className={classes.profileSection}>
       <ProfileBanner user={props.user} />
-    </div>
+      <ProfileFriendsList />
+    </section>
   );
 }
 export default ProfileSection;
